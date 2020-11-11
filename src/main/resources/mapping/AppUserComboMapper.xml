@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wechat.program.app.mapper.AppUserComboMapper">
+    <resultMap id="BaseResultMap"
+               type="com.wechat.program.app.entity.AppUserCombo">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <id column="combo_id" jdbcType="INTEGER" property="comboId"/>
+        <id column="used" jdbcType="BIT" property="used"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      user_id,combo_id,used
+  </sql>
+
+    <insert id="insertAppUserCombo" keyColumn="id" keyProperty="id" parameterType="com.wechat.program.app.entity.AppUserCombo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into app_user_combo (user_id, combo_id, used)
+        values (#{userId,jdbcType=INTEGER}, #{comboId,jdbcType=INTEGER}, #{used,jdbcType=BIT})
+    </insert>
+
+    <update id="updateUsed" parameterType="com.wechat.program.app.entity.AppUserCombo">
+        update app_user_combo
+        <set>
+            used = #{used, jdbcType="BIT"}
+        </set>
+        where
+        user_id = #{usedId} and combo_id = #{comboId}
+    </update>
+
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        app_user_combo
+        where user_id = #{usedId}
+    </select>
+</mapper>

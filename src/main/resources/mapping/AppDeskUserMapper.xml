@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wechat.program.app.mapper.AppDeskUserMapper">
+    <resultMap id="BaseResultMap"
+               type="com.wechat.program.app.entity.AppDeskUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="desk_id" jdbcType="INTEGER" property="deskId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="consumption_time" jdbcType="INTEGER" property="consumptionTime"/>
+        <result column="record_time" property="recordTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id,desk_id,user_id,consumption_time,status,record_time, create_time, update_time
+  </sql>
+
+
+    <select id="selectAppDeskUserByDeskIdAndNotFinished" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        app_desk_user
+        where
+        desk_id = #{deskId}
+        and status != #{status}
+    </select>
+
+    <select id="selectCountStatusByFinish" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(id) FROM app_desk_user
+        WHERE desk_id = #{userId}
+        AND status = 2
+    </select>
+</mapper>
