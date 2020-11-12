@@ -103,4 +103,19 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="selectByTokenAndPermissionCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(1) FROM app_user AS u INNER JOIN app_user_role AS ur ON u.id = ur.user_id
+        INNER JOIN app_role_permission AS rm ON rm.role_id = ur.role_id
+        LEFT JOIN app_permission as p ON rm.permission_id = p.id
+        WHERE token = #{token} AND p.`code`= #{code}
+    </select>
+
+    <select id="selectByPhoneAndPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        app_user
+        where phone = #{phone} AND password = #{password}
+    </select>
 </mapper>
