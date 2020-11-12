@@ -62,4 +62,7 @@ public class AppUser extends BaseEntity {
     @Transient
     private Integer comboId;
 
+    public Integer getTotalTime() {
+        return totalTime == null ? 0 : totalTime;
+    }
 }

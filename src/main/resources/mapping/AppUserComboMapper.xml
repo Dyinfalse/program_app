@@ -23,10 +23,10 @@
     <update id="updateUsed" parameterType="com.wechat.program.app.entity.AppUserCombo">
         update app_user_combo
         <set>
-            used = #{used, jdbcType="BIT"}
+         used = #{used}
         </set>
         where
-        user_id = #{usedId} and combo_id = #{comboId}
+        user_id = #{userId} and combo_id = #{comboId}
     </update>
 
     <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
