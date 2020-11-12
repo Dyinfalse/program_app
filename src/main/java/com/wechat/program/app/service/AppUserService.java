@@ -33,4 +33,7 @@ public interface AppUserService extends IService<AppUser> {
     List<UserConsumptionStatisticsVO> consumptionStatistics();
 
 
+    Boolean selectByToken(String token);
+
+    void updateToken(String token, Integer id);
 }

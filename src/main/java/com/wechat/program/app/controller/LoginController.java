@@ -7,6 +7,7 @@ import com.wechat.program.app.request.UserLoginDTO;
 import com.wechat.program.app.service.AppUserService;
 import com.wechat.program.app.utils.SHAUtil;
 import com.wechat.program.app.utils.ShiroUtils;
+import com.wechat.program.app.vo.AppUserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -54,7 +55,13 @@ public class LoginController {
         } catch (AuthorizationException e) {
             return AjaxResult.failed("没有权限！");
         }
-        return AjaxResult.success(appUserService.selectByShiroName(dto.getPhone()));
+        AppUserVo appUserVo = appUserService.selectByShiroName(dto.getPhone());
+        if (StringUtils.isEmpty(appUserVo.getToken())) {
+            appUserVo.setToken(SHAUtil.SHA256(appUserVo.getPhone()+appUserVo.getPassword()));
+            appUserVo.setPassword(null);
+            appUserService.updateToken(appUserVo.getToken(), appUserVo.getId());
+        }
+        return AjaxResult.success(appUserVo);
     }
 
     @GetMapping("/logout")

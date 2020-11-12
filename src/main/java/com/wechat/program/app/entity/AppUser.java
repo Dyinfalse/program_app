@@ -18,6 +18,8 @@ public class AppUser extends BaseEntity {
 
     private String password;
 
+    private String token;
+
     /**
      * 0:客户，1：员工，2：管理员'
      */

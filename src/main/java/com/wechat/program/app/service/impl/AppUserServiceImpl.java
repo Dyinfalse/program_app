@@ -43,6 +43,7 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         BeanUtils.copyProperties(dto, appUser);
         String password = SHAUtil.SHA256(appUser.getPassword());
         appUser.setPassword(password);
+        appUser.setToken(SHAUtil.SHA256(appUser.getPhone()+appUser.getPassword()));
         appUserMapper.insert(appUser);
         AppUserCombo appUserCombo = new AppUserCombo();
         appUserCombo.setComboId(dto.getComboId());
@@ -153,6 +154,19 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
             consumptionStatisticsVOList.add(vo);
         }
         return consumptionStatisticsVOList;
+    }
+
+    @Override
+    public Boolean selectByToken(String token) {
+        return appUserMapper.selectByToken(token) > 0;
+    }
+
+    @Override
+    public void updateToken(String token, Integer id) {
+        AppUser appUser = new AppUser();
+        appUser.setToken(token);
+        appUser.setId(id);
+        appUserMapper.updateToken(appUser);
     }
 
     @Autowired

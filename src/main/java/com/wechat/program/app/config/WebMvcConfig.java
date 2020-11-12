@@ -1,10 +1,7 @@
 package com.wechat.program.app.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
@@ -33,4 +30,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         configurer.setDefaultTimeout(1000000);
     }
 
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**");
+    }
 }

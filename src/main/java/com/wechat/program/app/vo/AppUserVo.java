@@ -10,6 +10,8 @@ import java.util.List;
 @Data
 public class AppUserVo implements Serializable {
 
+    private Integer id;
+
     private String name;
 
     private String phone;
@@ -17,6 +19,8 @@ public class AppUserVo implements Serializable {
     private Boolean member;
 
     private String password;
+
+    private String token;
 
     private Integer comboId;
 

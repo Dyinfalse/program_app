@@ -7,6 +7,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="member" jdbcType="BIT" property="member"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
@@ -22,7 +23,7 @@
 
 
     <sql id="Base_Column_List">
-      id,name,phone,member,sex,current_integral,coupon, type, present_time, birthday, validity_volume,create_time, update_time
+      id,name,phone,member,sex,current_integral,coupon,password, type, token, present_time, birthday, validity_volume,create_time, update_time
   </sql>
 
 
@@ -86,4 +87,20 @@
         app_user
         where phone = #{phone} AND member = 0 AND type != 0
     </select>
+
+    <select id="selectByToken" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+         count(*)
+        from
+        app_user
+        where token = #{token} AND member = 0 AND type != 0
+    </select>
+
+    <update id="updateToken" parameterType="com.wechat.program.app.entity.AppUser">
+        update app_user
+        <set>
+            token = #{token}
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

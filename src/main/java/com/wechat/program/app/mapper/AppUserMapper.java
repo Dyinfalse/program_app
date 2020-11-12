@@ -23,4 +23,8 @@ public interface AppUserMapper extends IBaseMapper<AppUser> {
     List<AppUser> selectListByType(@Param("type") Integer type);
 
     AppUser selectNoMembersByPhone(String phone);
+
+    Integer selectByToken(@Param("token") String token);
+
+    void updateToken(AppUser appUser);
 }
