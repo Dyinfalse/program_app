@@ -36,4 +36,12 @@
         app_user_combo
         where user_id = #{usedId}
     </select>
+
+    <select id="selectComboIdByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select
+         combo_id
+        from
+        app_user_combo
+        where user_id = #{usedId} and used = 1
+    </select>
 </mapper>

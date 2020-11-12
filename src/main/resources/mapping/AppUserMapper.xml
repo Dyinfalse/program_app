@@ -11,6 +11,7 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="member" jdbcType="BIT" property="member"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="total_time" jdbcType="INTEGER" property="totalTime"/>
         <result column="present_time" jdbcType="INTEGER" property="presentTime"/>
         <result column="sex" jdbcType="TINYINT" property="sex"/>
         <result column="current_integral" jdbcType="INTEGER" property="currentIntegral"/>
@@ -23,13 +24,17 @@
 
 
     <sql id="Base_Column_List">
-      id,name,phone,member,sex,current_integral,coupon,password, type, token, present_time, birthday, validity_volume,create_time, update_time
+      id,name,phone,member,sex,current_integral,coupon,password, type,total_time, token, present_time, birthday, validity_volume,create_time, update_time
   </sql>
+
+    <sql id="Column_List" >
+        id,name,phone,member,sex,current_integral,coupon, type, token,total_time, present_time, birthday, validity_volume,create_time, update_time
+    </sql>
 
 
     <select id="selectByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="Column_List"></include>
         from
         app_user
         where (name LIKE concat('%',#{keyword} ,'%') or phone LIKE concat('%',#{keyword} ,'%') )
