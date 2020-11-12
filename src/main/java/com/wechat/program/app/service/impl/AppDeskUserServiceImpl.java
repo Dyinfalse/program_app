@@ -63,8 +63,8 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             int status = appDeskUserMapper.selectCountStatusByFinish(appDeskUser.getUserId());
             if (status == 0) appDeskService.updateUsed(appDeskUser.getDeskId(), false);
             AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
-            Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
-            duration += appUser.getPresentTime();
+//            Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+//            duration += appUser.getPresentTime();
             appUser.setTotalTime(appUser.getTotalTime()-appDeskUser.getConsumptionTime());
             appUserService.update(appUser);
             SendSmsDto sendSmsDto = new SendSmsDto(appUser.getPhone(), 2);
@@ -108,12 +108,18 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                         int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
                         vo.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
                         // 剩余时长
-                        vo.setRemainingTime(duration - consumptionTime);
+                        vo.setRemainingTime(duration - vo.getConsumptionTime());
+                        appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+                        appUser.setTotalTime(duration - vo.getConsumptionTime());
                     } else {
                         Integer consumptionTime = appDeskUser.getConsumptionTime();
-                        vo.setConsumptionTime(consumptionTime);
+                        vo.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
                         vo.setRemainingTime(duration - consumptionTime);
+                        appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+                        appUser.setTotalTime(duration - vo.getConsumptionTime());
                     }
+                    appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
+                    appUserService.update(appUser);
                 }
             }
             voList.add(vo);
