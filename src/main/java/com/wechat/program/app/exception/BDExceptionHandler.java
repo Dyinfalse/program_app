@@ -37,12 +37,12 @@ public class BDExceptionHandler {
 //    }
 
     @ExceptionHandler(AuthorizationException.class)
-    public Object handleAuthorizationException(AuthorizationException e, HttpServletRequest request, HttpServletResponse response) {
+    public AjaxResult handleAuthorizationException(AuthorizationException e, HttpServletRequest request, HttpServletResponse response) {
 //        logger.error(e.getMessage(), e);
 //        if (HttpServletUtils.jsAjax(request)) {
 //            return R.error(403, "未授权");
 //        }
-        return new ModelAndView("error/403");
+        return AjaxResult.failed("权限不足！", "403");
     }
 
 

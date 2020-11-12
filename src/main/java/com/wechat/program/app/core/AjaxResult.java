@@ -67,4 +67,8 @@ public class AjaxResult<T> {
         return new AjaxResult("500", null, message);
     }
 
+    public static final <T> AjaxResult failed(String message, String code) {
+        return new AjaxResult(code, null, message);
+    }
+
 }

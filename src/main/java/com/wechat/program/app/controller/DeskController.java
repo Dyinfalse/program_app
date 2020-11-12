@@ -1,5 +1,6 @@
 package com.wechat.program.app.controller;
 
+import com.wechat.program.app.constant.PermissionConstant;
 import com.wechat.program.app.core.AjaxResult;
 import com.wechat.program.app.entity.AppDeskUser;
 import com.wechat.program.app.request.AppDeskUserDTO;
@@ -7,6 +8,7 @@ import com.wechat.program.app.request.AppDeskUserStatusDTO;
 import com.wechat.program.app.service.AppDeskUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ public class DeskController {
 
     private AppDeskUserService appDeskUserService;
 
+    @RequiresPermissions(PermissionConstant.DESK_USER_ADD)
     @ApiOperation("添加桌子")
     @PostMapping("/add")
     public AjaxResult add(@RequestBody AppDeskUserDTO dto) {
@@ -31,6 +34,7 @@ public class DeskController {
         return AjaxResult.success();
     }
 
+    @RequiresPermissions(PermissionConstant.DESK_LIST)
     @ApiOperation("桌子列表")
     @GetMapping("/list")
     public AjaxResult list() {

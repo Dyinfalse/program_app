@@ -34,12 +34,14 @@ public class AppUserController {
         return AjaxResult.success(vo);
     }
 
+    @RequiresPermissions(PermissionConstant.MEMBERS_LIST)
     @ApiOperation("关键字查询，手机号或者名称")
     @GetMapping("/keyword")
     public AjaxResult searchKey(@RequestParam("keyword") String keyword) {
         return AjaxResult.success(appUserService.searchKey(keyword));
     }
 
+    @RequiresPermissions(PermissionConstant.MEMBERS_LIST)
     @ApiOperation("会员或非会员列表")
     @GetMapping("/members")
     public AjaxResult members(@RequestParam(name = "type", defaultValue = "0") Integer type ) {
@@ -63,6 +65,7 @@ public class AppUserController {
         return AjaxResult.success(appUserService.selectListByType(type));
     }
 
+    @RequiresPermissions(PermissionConstant.CONSUMPTION_STATISTICS)
     @ApiOperation("消费统计")
     @GetMapping("/statistics")
     public AjaxResult consumptionStatistics() {
