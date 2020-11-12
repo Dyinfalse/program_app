@@ -10,17 +10,19 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="member" jdbcType="BIT" property="member"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="present_time" jdbcType="INTEGER" property="presentTime"/>
         <result column="sex" jdbcType="TINYINT" property="sex"/>
         <result column="current_integral" jdbcType="INTEGER" property="currentIntegral"/>
         <result column="coupon" jdbcType="INTEGER" property="coupon"/>
         <result column="validity_volume" jdbcType="TIMESTAMP" property="validityVolume"/>
+        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-      id,name,phone,member,sex,current_integral,coupon, validity_volume,create_time, update_time
+      id,name,phone,member,sex,current_integral,coupon, type, present_time, birthday, validity_volume,create_time, update_time
   </sql>
 
 

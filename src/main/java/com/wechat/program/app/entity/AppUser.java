@@ -25,6 +25,16 @@ public class AppUser extends BaseEntity {
 
     private Integer sex;
 
+    /**
+     * 生日
+     */
+    private Date birthday;
+
+    /**
+     * 赠送时长
+     */
+    private Integer presentTime = 0;
+
     private Integer currentIntegral;
 
     private Integer coupon;

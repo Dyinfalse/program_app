@@ -71,10 +71,12 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             AppDeskVo vo = new AppDeskVo();
             vo.setDeskId(appDesk.getId());
             vo.setUsed(appDesk.getUsed());
+            vo.setName(appDesk.getName());
             if (appDesk.getUsed()) {
                 AppDeskUser appDeskUser = appDeskUserMapper.selectAppDeskUserByDeskIdAndNotFinished(appDesk.getId(), 2);
                 if (Objects.nonNull(appDeskUser) && null != appDeskUser.getUserId()) {
                     BeanUtils.copyProperties(appDeskUser, vo);
+                    vo.setId(appDeskUser.getId());
                     AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
                     if (Objects.isNull(appUser)) continue;
                     vo.setUserId(appDeskUser.getUserId());
@@ -82,6 +84,7 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                     vo.setRecordTime(appDeskUser.getRecordTime());
                     // 套餐时长
                     Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+                    duration += appUser.getPresentTime();
                     if (appDeskUser.getStatus() == 1) {
                         // 消费时长
                         int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());

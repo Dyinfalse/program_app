@@ -15,5 +15,10 @@ public class UserConsumptionStatisticsVO {
 
     private String phone;
 
+    /**
+     * 赠送时长
+     */
+    private Integer presentTime = 0;
+
     private List<AppCombo> comboList;
 }

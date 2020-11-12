@@ -135,6 +135,7 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
             vo.setId(appUser.getId());
             vo.setName(appUser.getName());
             vo.setPhone(appUser.getPhone());
+            vo.setPresentTime(appUser.getPresentTime());
             List<AppUserCombo> appUserCombos = appUserComboService.selectByUserId(appUser.getId());
             if (!CollectionUtils.isEmpty(appUserCombos)) {
                 List<AppCombo> appCombos = new ArrayList<>();

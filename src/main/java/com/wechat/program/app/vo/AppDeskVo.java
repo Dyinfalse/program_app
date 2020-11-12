@@ -18,6 +18,8 @@ public class AppDeskVo {
 
     private String userInfo;
 
+    private String name;
+
     /**
      * 消费时长
      */
