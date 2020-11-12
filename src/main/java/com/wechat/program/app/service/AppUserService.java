@@ -36,4 +36,8 @@ public interface AppUserService extends IService<AppUser> {
     Boolean selectByToken(String token);
 
     void updateToken(String token, Integer id);
+
+    Integer selectByTokenAndPermissionCode(String token, String code);
+
+    AppUser selectByPhoneAndPassword(String phone, String password);
 }

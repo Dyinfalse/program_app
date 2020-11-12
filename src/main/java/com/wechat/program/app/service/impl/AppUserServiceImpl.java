@@ -169,6 +169,17 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         appUserMapper.updateToken(appUser);
     }
 
+    @Override
+    public Integer selectByTokenAndPermissionCode(String token, String code) {
+        return appUserMapper.selectByTokenAndPermissionCode(token, code);
+    }
+
+    @Override
+    public AppUser selectByPhoneAndPassword(String phone, String password) {
+        password = SHAUtil.SHA256(password);
+        return appUserMapper.selectByPhoneAndPassword(phone, password);
+    }
+
     @Autowired
     public void setAppUserMapper(AppUserMapper appUserMapper) {
         this.appUserMapper = appUserMapper;

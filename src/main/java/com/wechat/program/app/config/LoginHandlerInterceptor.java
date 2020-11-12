@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.wechat.program.app.constant.PermissionConstant.CONSUMPTION_STATISTICS;
+
 
 public class LoginHandlerInterceptor implements HandlerInterceptor {
 
@@ -21,22 +23,30 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (request.getRequestURI().equals("/login"))return true;
+        String uri = request.getRequestURI();
+        if (uri.contains("/login") || uri.contains("error"))return true;
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)) {
-            returnJson(response, "token不能为空！");
+            returnJson(response, "token不能为空！", "500");
             return false;
 
         }
         AppUserService appUserService = SpringContextHolder.getBean(AppUserService.class);
         if (!appUserService.selectByToken(token)) {
-            returnJson(response, "恶意攻击！");
+            returnJson(response, "恶意攻击！", "500");
             return false;
+        }
+        if (request.getRequestURI().equals("/app-user/statistics")) {
+            Integer count  = appUserService.selectByTokenAndPermissionCode(token, CONSUMPTION_STATISTICS);
+            if (count < 1) {
+                returnJson(response, "权限不足！", "403");
+                return false;
+            }
         }
         return true;
     }
 
-    private void returnJson(HttpServletResponse response, String message){
+    private void returnJson(HttpServletResponse response, String message, String code){
         PrintWriter writer = null;
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
@@ -45,7 +55,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             Map<String, Object> result = new HashMap<>();
             result.put("data", null);
             result.put("message", message);
-            result.put("code", 500);
+            result.put("code", code);
             writer.print(result);
         } catch (IOException e){
             logger.error(e.getMessage());
