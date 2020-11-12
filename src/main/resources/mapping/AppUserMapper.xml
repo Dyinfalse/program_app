@@ -31,7 +31,7 @@
         <include refid="Base_Column_List"></include>
         from
         app_user
-        where (name = #{keyword} or phone = #{keyword})
+        where (name LIKE concat('%',#{keyword} ,'%') or phone LIKE concat('%',#{keyword} ,'%') )
         AND member = 1 AND type = 0
     </select>
 
