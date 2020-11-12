@@ -29,6 +29,10 @@ public class AppUserComboServiceImpl implements AppUserComboService {
         return appUserComboMapper.selectByUserId(usedId);
     }
 
+    @Override
+    public Integer selectComboIdByUserId(Integer userId) {
+        return appUserComboMapper.selectComboIdByUserId(userId);
+    }
 
     @Autowired
     public void setAppUserComboMapper(AppUserComboMapper appUserComboMapper) {

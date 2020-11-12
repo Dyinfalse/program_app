@@ -20,5 +20,10 @@ public class UserConsumptionStatisticsVO {
      */
     private Integer presentTime = 0;
 
+    /**
+     * 总时长
+     */
+    private Integer totalTime;
+
     private List<AppCombo> comboList;
 }

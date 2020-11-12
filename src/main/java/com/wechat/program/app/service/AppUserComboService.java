@@ -11,4 +11,6 @@ public interface AppUserComboService {
     void updateUsed(AppUserCombo appUserCombo);
 
     List<AppUserCombo> selectByUserId(Integer userId);
+
+    Integer selectComboIdByUserId(Integer userId);
 }

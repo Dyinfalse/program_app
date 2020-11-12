@@ -1,9 +1,12 @@
 package com.wechat.program.app.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Data
@@ -30,6 +33,14 @@ public class AppUser extends BaseEntity {
     /**
      * 生日
      */
+
+    @DateTimeFormat(
+            pattern = "yyyy-MM-dd HH:mm:ss"
+    )
+    @JsonFormat(
+            pattern = "yyyy-MM-dd",
+            timezone = "GMT+8"
+    )
     private Date birthday;
 
     /**
@@ -37,10 +48,18 @@ public class AppUser extends BaseEntity {
      */
     private Integer presentTime = 0;
 
+    /**
+     * 总时长
+     */
+    private Integer totalTime;
+
     private Integer currentIntegral;
 
     private Integer coupon;
 
     private Date validityVolume;
+
+    @Transient
+    private Integer comboId;
 
 }

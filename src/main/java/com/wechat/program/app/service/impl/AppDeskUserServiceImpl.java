@@ -65,11 +65,14 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
             Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
             duration += appUser.getPresentTime();
+            appUser.setTotalTime(appUser.getTotalTime()-appDeskUser.getConsumptionTime());
+            appUserService.update(appUser);
             SendSmsDto sendSmsDto = new SendSmsDto(appUser.getPhone(), 2);
             ArrayList<String> params = sendSmsDto.getParams();
             params.add(appUser.getName());
             params.add(String.valueOf(consumptionTime));
-            params.add(String.valueOf(duration-appDeskUser.getConsumptionTime()));
+//            params.add(String.valueOf(duration-appDeskUser.getConsumptionTime()));
+            params.add(String.valueOf(appUser.getTotalTime()));
             sendSmsDto.setParams(params);
             smsService.sendSmsCode(sendSmsDto);
         }
@@ -96,8 +99,10 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                     vo.setUserInfo(appUser.getName());
                     vo.setRecordTime(appDeskUser.getRecordTime());
                     // 套餐时长
-                    Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
-                    duration += appUser.getPresentTime();
+//                    Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+//                    duration += appUser.getPresentTime();
+                    Integer totalTime = appUser.getTotalTime();
+                    Integer duration = totalTime + appUser.getPresentTime();
                     if (appDeskUser.getStatus() == 1) {
                         // 消费时长
                         int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());

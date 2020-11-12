@@ -1,7 +1,7 @@
 package com.wechat.program.app.exception;
 
 import com.wechat.program.app.core.AjaxResult;
-import org.apache.shiro.authz.AuthorizationException;
+//import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,14 +36,14 @@ public class BDExceptionHandler {
 //        return R.error(404, "没找找到页面");
 //    }
 
-    @ExceptionHandler(AuthorizationException.class)
-    public AjaxResult handleAuthorizationException(AuthorizationException e, HttpServletRequest request, HttpServletResponse response) {
-//        logger.error(e.getMessage(), e);
-//        if (HttpServletUtils.jsAjax(request)) {
-//            return R.error(403, "未授权");
-//        }
-        return AjaxResult.failed("权限不足！", "403");
-    }
+//    @ExceptionHandler(AuthorizationException.class)
+//    public AjaxResult handleAuthorizationException(AuthorizationException e, HttpServletRequest request, HttpServletResponse response) {
+////        logger.error(e.getMessage(), e);
+////        if (HttpServletUtils.jsAjax(request)) {
+////            return R.error(403, "未授权");
+////        }
+//        return AjaxResult.failed("权限不足！", "403");
+//    }
 
 
 }

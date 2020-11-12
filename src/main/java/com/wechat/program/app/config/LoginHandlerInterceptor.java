@@ -24,7 +24,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
-        if (uri.contains("/login") || uri.contains("error"))return true;
+        if (uri.contains("/login") || uri.contains("error")||uri.contains("swagger"))return true;
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)) {
             returnJson(response, "token不能为空！", "500");

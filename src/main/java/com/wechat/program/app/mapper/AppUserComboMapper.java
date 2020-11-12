@@ -14,4 +14,6 @@ public interface AppUserComboMapper{
     int updateUsed(AppUserCombo appUserCombo);
 
     List<AppUserCombo> selectByUserId(@Param("usedId") Integer usedId);
+
+    Integer selectComboIdByUserId(@Param("usedId")Integer userId);
 }

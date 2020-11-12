@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -44,13 +45,16 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         String password = SHAUtil.SHA256(appUser.getPassword());
         appUser.setPassword(password);
         appUser.setToken(SHAUtil.SHA256(appUser.getPhone()+appUser.getPassword()));
-        appUserMapper.insert(appUser);
         AppUserCombo appUserCombo = new AppUserCombo();
         appUserCombo.setComboId(dto.getComboId());
         appUserCombo.setUserId(appUser.getId());
         appUserCombo.setUsed(true);
-        appUserComboService.add(appUserCombo);
         AppCombo appCombo = appComboService.selectByKey(dto.getComboId());
+        if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
+        appUser.setTotalTime(appCombo.getDuration());
+        appUserMapper.insert(appUser);
+        appUserComboService.add(appUserCombo);
+
         AppUserVo vo = new AppUserVo();
         BeanUtils.copyProperties(appUser, vo);
         vo.setComboId(dto.getComboId());
@@ -69,7 +73,13 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
 
     @Override
     public List<AppUser> searchKey(String keyword) {
-        return appUserMapper.selectByKey(keyword);
+        List<AppUser> appUsers = appUserMapper.selectByKey(keyword);
+        if (StringUtils.isEmpty(appUsers)) return appUsers;
+        appUsers.forEach(t-> {
+            Integer comboId = appUserComboService.selectComboIdByUserId(t.getId());
+            if (comboId != null) t.setComboId(comboId);
+        });
+        return appUsers;
     }
 
     @Override
@@ -94,15 +104,17 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         if (null == dto.getId()) throw new ProgramException("修改用户信息缺失！");
         AppUser appUser = new AppUser();
         BeanUtils.copyProperties(dto, appUser);
-        appUserMapper.updateByPrimaryKeySelective(appUser);
         if (null != dto.getPreComboId() && !dto.getPreComboId().equals(dto.getComboId())) {
+            AppCombo appCombo = appComboService.selectByKey(dto.getPreComboId());
+            if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
             AppUserCombo appUserCombo = new AppUserCombo();
             appUserCombo.setUserId(dto.getId());
             appUserCombo.setComboId(dto.getPreComboId());
             appUserCombo.setUsed(false);
             appUserComboService.updateUsed(appUserCombo);
+            appUser.setTotalTime(appUser.getTotalTime()+appCombo.getDuration());
         }
-
+        appUserMapper.updateByPrimaryKeySelective(appUser);
         return appUser;
     }
 
@@ -142,6 +154,7 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
             vo.setName(appUser.getName());
             vo.setPhone(appUser.getPhone());
             vo.setPresentTime(appUser.getPresentTime());
+            vo.setTotalTime(appUser.getTotalTime());
             List<AppUserCombo> appUserCombos = appUserComboService.selectByUserId(appUser.getId());
             if (!CollectionUtils.isEmpty(appUserCombos)) {
                 List<AppCombo> appCombos = new ArrayList<>();
