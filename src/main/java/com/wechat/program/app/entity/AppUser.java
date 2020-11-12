@@ -65,4 +65,24 @@ public class AppUser extends BaseEntity {
     public Integer getTotalTime() {
         return totalTime == null ? 0 : totalTime;
     }
+
+    public Integer getPresentTime() {
+        return presentTime == null ? 0 : presentTime;
+    }
+
+    public Integer getSex() {
+        return sex == null ? 0 : sex;
+    }
+
+    public Date getBirthday() {
+        return birthday == null ? new Date() : birthday;
+    }
+
+    public Integer getCurrentIntegral() {
+        return currentIntegral == null ? 0 : currentIntegral;
+    }
+
+    public Integer getCoupon() {
+        return coupon == null ? 0 : coupon;
+    }
 }

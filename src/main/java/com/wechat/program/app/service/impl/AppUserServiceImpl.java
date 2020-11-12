@@ -47,12 +47,12 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         appUser.setToken(SHAUtil.SHA256(appUser.getPhone()+appUser.getPassword()));
         AppUserCombo appUserCombo = new AppUserCombo();
         appUserCombo.setComboId(dto.getComboId());
-        appUserCombo.setUserId(appUser.getId());
         appUserCombo.setUsed(true);
         AppCombo appCombo = appComboService.selectByKey(dto.getComboId());
         if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
         appUser.setTotalTime(appCombo.getDuration());
         appUserMapper.insert(appUser);
+        appUserCombo.setUserId(appUser.getId());
         appUserComboService.add(appUserCombo);
 
         AppUserVo vo = new AppUserVo();
@@ -104,14 +104,19 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         if (null == dto.getId()) throw new ProgramException("修改用户信息缺失！");
         AppUser appUser = new AppUser();
         BeanUtils.copyProperties(dto, appUser);
-        if (null != dto.getPreComboId() && !dto.getPreComboId().equals(dto.getComboId())) {
+        if (null != dto.getPreComboId() && dto.getPreComboId() > 0 &&  !dto.getPreComboId().equals(dto.getComboId())) {
             AppCombo appCombo = appComboService.selectByKey(dto.getPreComboId());
             if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
             AppUserCombo appUserCombo = new AppUserCombo();
             appUserCombo.setUserId(dto.getId());
             appUserCombo.setComboId(dto.getPreComboId());
-            appUserCombo.setUsed(false);
+            appUserCombo.setUsed(true);
             appUserComboService.updateUsed(appUserCombo);
+            AppUserCombo combo = new AppUserCombo();
+            combo.setUserId(dto.getId());
+            combo.setComboId(dto.getComboId());
+            combo.setUsed(false);
+            appUserComboService.updateUsed(combo);
             appUser.setTotalTime(appUser.getTotalTime()+appCombo.getDuration());
         }
         appUserMapper.updateByPrimaryKeySelective(appUser);

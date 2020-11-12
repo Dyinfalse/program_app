@@ -79,4 +79,9 @@ public class AppUserDTO {
     public String getPassword() {
         return StringUtils.isEmpty(password)? "123456" : password;
     }
+
+
+    public Integer getPresentTime() {
+        return presentTime == null ? 0 : presentTime;
+    }
 }

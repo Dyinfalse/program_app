@@ -15,10 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements AppDeskUserService {
@@ -63,16 +60,16 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             int status = appDeskUserMapper.selectCountStatusByFinish(appDeskUser.getUserId());
             if (status == 0) appDeskService.updateUsed(appDeskUser.getDeskId(), false);
             AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
-//            Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
-//            duration += appUser.getPresentTime();
-            appUser.setTotalTime(appUser.getTotalTime()-appDeskUser.getConsumptionTime());
+            Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+            duration += appUser.getPresentTime();
+            appUser.setTotalTime(appUser.getTotalTime()+ appDeskUser.getConsumptionTime());
             appUserService.update(appUser);
             SendSmsDto sendSmsDto = new SendSmsDto(appUser.getPhone(), 2);
             ArrayList<String> params = sendSmsDto.getParams();
             params.add(appUser.getName());
             params.add(String.valueOf(consumptionTime));
-//            params.add(String.valueOf(duration-appDeskUser.getConsumptionTime()));
-            params.add(String.valueOf(appUser.getTotalTime()));
+            params.add(String.valueOf(duration-appDeskUser.getConsumptionTime()));
+//            params.add(String.valueOf(appUser.getTotalTime()));
             sendSmsDto.setParams(params);
             smsService.sendSmsCode(sendSmsDto);
         }
@@ -82,6 +79,7 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
     public List<AppDeskVo> selectDeskList() {
         List<AppDesk> appDesks = appDeskService.selectAll();
         List<AppDeskVo> voList = new ArrayList<>();
+        Map<Integer, Integer> map =new HashMap<>();
         for (AppDesk appDesk : appDesks) {
             AppDeskVo vo = new AppDeskVo();
             vo.setDeskId(appDesk.getId());
@@ -99,31 +97,47 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                     vo.setUserInfo(appUser.getName());
                     vo.setRecordTime(appDeskUser.getRecordTime());
                     // 套餐时长
-//                    Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
-//                    duration += appUser.getPresentTime();
+                    Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+                    duration += appUser.getPresentTime();
                     Integer totalTime = appUser.getTotalTime();
-                    Integer duration = totalTime + appUser.getPresentTime();
+//                    Integer duration = totalTime + appUser.getPresentTime();
                     if (appDeskUser.getStatus() == 1) {
                         // 消费时长
                         int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
-                        vo.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+                        vo.setConsumptionTime(consumptionTime);
                         // 剩余时长
-                        vo.setRemainingTime(duration - vo.getConsumptionTime());
-                        appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
-                        appUser.setTotalTime(duration - vo.getConsumptionTime());
-                    } else {
+                        vo.setRemainingTime(duration - vo.getConsumptionTime()-totalTime);
+                        appDeskUser.setConsumptionTime(consumptionTime);
+                        map.put(vo.getUserId(), map.getOrDefault(vo.getUserId(), duration) - vo.getConsumptionTime());
+                    } else if (appDeskUser.getStatus() == 0) {
                         Integer consumptionTime = appDeskUser.getConsumptionTime();
-                        vo.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
-                        vo.setRemainingTime(duration - consumptionTime);
-                        appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
-                        appUser.setTotalTime(duration - vo.getConsumptionTime());
+                        vo.setConsumptionTime(consumptionTime);
+                        vo.setRemainingTime(duration - vo.getConsumptionTime() - totalTime);
+                        map.put(vo.getUserId(), map.getOrDefault(vo.getUserId(), duration) - vo.getConsumptionTime());
                     }
+//                    if (map.containsKey(vo.getId())) {
+//                        Integer remainingTime = map.get(vo.getId());
+//                        if (remainingTime > vo.getRemainingTime()) {
+//                            map.put(vo.getId(), vo.getRemainingTime());
+//                        }
+//                    } else {
+//                        map.put(vo.getId(), vo.getRemainingTime());
+//                    }
                     appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
-                    appUserService.update(appUser);
+//                    appUserService.update(appUser);
                 }
             }
+
             voList.add(vo);
         }
+        voList.forEach(t->{
+            if (t.getId()!= null) {
+                Integer remainingTime = map.get(t.getUserId());
+                if (remainingTime != null) {
+                    t.setRemainingTime(remainingTime);
+                }
+            }
+        });
         return voList;
     }
 
