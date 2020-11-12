@@ -18,4 +18,16 @@ public interface Constants {
      * 短信签名
      */
     String SIGN = "咚咚积木";
+
+//    String SIGN_FINISH = "消费完毕";
+//
+//    String FIRST_OPEN_MEMBER = "首次开通会员";
+
+    /**
+     * 模板id
+     */
+    Integer TEMPLATE_FINISH = 774039;
+
+    Integer TEMPLATE_OPEN_MEMBER = 774037;
+
 }

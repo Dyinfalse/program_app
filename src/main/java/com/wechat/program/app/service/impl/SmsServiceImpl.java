@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-import static com.wechat.program.app.constant.Constants.SIGN;
+import static com.wechat.program.app.constant.Constants.*;
 
 /**
  * @auther 王军伟
@@ -29,9 +29,9 @@ public class SmsServiceImpl implements SmsService {
     @Autowired
     private SmsSingleSender smsSingleSender;
 
-    /**
-     * 短信模板ID
-     **/
+//    /**
+//     * 短信模板ID
+//     **/
     @Value("${smsconfig.templateid}")
     private int TEMPLATE_ID;
 
@@ -54,13 +54,24 @@ public class SmsServiceImpl implements SmsService {
         // 为了防止短信轰炸可以根据业务需求在此做一些限制
         String code = SmsUtil.getCode();
         try {
-            ArrayList<String> params = new ArrayList<>();
-            params.add(code);
+//            ArrayList<String> params = new ArrayList<>();
+//            params.add(code);
 //            params.add(INVALID_TIME);
 //            String sign = new String(SMS_SIGN, "utf-8");
-            SmsSingleSenderResult senderResult = smsSingleSender
-                    .sendWithParam("86", sendSmsDto.getMobile(),
-                            TEMPLATE_ID, params, SIGN, "", "");
+            SmsSingleSenderResult senderResult ;
+            if (sendSmsDto.getType() == 1) {
+                senderResult = smsSingleSender
+                        .sendWithParam("86", sendSmsDto.getMobile(),
+                                TEMPLATE_OPEN_MEMBER, sendSmsDto.getParams(), SIGN, "", "");
+            } else {
+                senderResult = smsSingleSender
+                        .sendWithParam("86", sendSmsDto.getMobile(),
+                                TEMPLATE_FINISH, sendSmsDto.getParams(), SIGN, "", "");
+            }
+//            senderResult = smsSingleSender
+//                    .sendWithParam("86", sendSmsDto.getMobile(),
+//                            TEMPLATE_ID, params, SIGN, "", "");
+
             int statusCode = senderResult.result;
             String statusMsg = senderResult.errMsg;
             log.info("发送短信，腾讯云返回状态码：" + statusCode);

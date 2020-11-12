@@ -21,4 +21,6 @@ public interface AppUserMapper extends IBaseMapper<AppUser> {
     Integer getComboOfDuration(@Param("userId") Integer userId);
 
     List<AppUser> selectListByType(@Param("type") Integer type);
+
+    AppUser selectNoMembersByPhone(String phone);
 }

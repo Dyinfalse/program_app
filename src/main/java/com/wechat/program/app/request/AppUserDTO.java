@@ -1,6 +1,7 @@
 package com.wechat.program.app.request;
 
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
@@ -74,4 +75,8 @@ public class AppUserDTO {
      * 卷有效期
      */
     private Date validityVolume;
+
+    public String getPassword() {
+        return StringUtils.isEmpty(password)? "123456" : password;
+    }
 }

@@ -78,4 +78,12 @@
         app_user
         where type = #{type}
     </select>
+
+    <select id="selectNoMembersByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        app_user
+        where phone = #{phone} AND member = 0 AND type != 0
+    </select>
 </mapper>

@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserService {
@@ -52,11 +49,19 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         appUserCombo.setUserId(appUser.getId());
         appUserCombo.setUsed(true);
         appUserComboService.add(appUserCombo);
+        AppCombo appCombo = appComboService.selectByKey(dto.getComboId());
         AppUserVo vo = new AppUserVo();
         BeanUtils.copyProperties(appUser, vo);
         vo.setComboId(dto.getComboId());
         SendSmsDto smsDto = new SendSmsDto();
         smsDto.setMobile(dto.getPhone());
+        smsDto.setType(1);
+        int consumption = dto.getPresentTime() + appCombo.getDuration();
+        ArrayList<String> params = smsDto.getParams();
+        params.add(appUser.getName());
+        params.add(appCombo.getName().replace("会员", ""));
+        params.add(String.valueOf(consumption));
+        smsDto.setParams(params);
         smsService.sendSmsCode(smsDto);
         return vo;
     }
@@ -102,14 +107,14 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
 
     @Override
     public AppUserVo selectByShiroName(String phone) {
-        AppUser appUser = appUserMapper.selectByPhone(phone);
+        AppUser appUser = appUserMapper.selectNoMembersByPhone(phone);
         if (Objects.isNull(appUser)) return null;
-        List<Integer> roleIds = appUserRoleService.selectRoleIdByUserId(appUser.getId());
-        if (CollectionUtils.isEmpty(roleIds)) return null;
-        List<AppRole> appRoleList = appRoleService.selectRoles(roleIds);
-        if (CollectionUtils.isEmpty(appRoleList)) return null;
         AppUserVo appUserVo = new AppUserVo();
         BeanUtils.copyProperties(appUser, appUserVo);
+        List<Integer> roleIds = appUserRoleService.selectRoleIdByUserId(appUser.getId());
+        if (CollectionUtils.isEmpty(roleIds)) return appUserVo;
+        List<AppRole> appRoleList = appRoleService.selectRoles(roleIds);
+        if (CollectionUtils.isEmpty(appRoleList)) return null;
         appUserVo.setAppRoleList(appRoleList);
         return appUserVo;
     }

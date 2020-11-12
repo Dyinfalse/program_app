@@ -56,10 +56,22 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
         appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
         // 如果结束的话，查找本桌子id相关的单子是否还有非结束的，如果有，则桌子为使用状态，否则为闲置状态
         if (dto.getStatus() == 2) {
+            int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
+            appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+            appDeskUser.setStatus(2);
+            appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
             int status = appDeskUserMapper.selectCountStatusByFinish(appDeskUser.getUserId());
             if (status == 0) appDeskService.updateUsed(appDeskUser.getDeskId(), false);
             AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
-            smsService.sendSmsCode(new SendSmsDto(appUser.getPhone()));
+            Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+            duration += appUser.getPresentTime();
+            SendSmsDto sendSmsDto = new SendSmsDto(appUser.getPhone(), 2);
+            ArrayList<String> params = sendSmsDto.getParams();
+            params.add(appUser.getName());
+            params.add(String.valueOf(consumptionTime));
+            params.add(String.valueOf(duration-appDeskUser.getConsumptionTime()));
+            sendSmsDto.setParams(params);
+            smsService.sendSmsCode(sendSmsDto);
         }
     }
 
@@ -80,7 +92,8 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                     AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
                     if (Objects.isNull(appUser)) continue;
                     vo.setUserId(appDeskUser.getUserId());
-                    vo.setUserInfo((appUser.getMember() ? "会员_" : "非会员_") + appUser.getName() + "_" + appUser.getPhone());
+//                    vo.setUserInfo((appUser.getMember() ? "会员_" : "非会员_") + appUser.getName() + "_" + appUser.getPhone());
+                    vo.setUserInfo(appUser.getName());
                     vo.setRecordTime(appDeskUser.getRecordTime());
                     // 套餐时长
                     Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());

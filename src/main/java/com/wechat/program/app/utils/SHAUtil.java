@@ -79,6 +79,9 @@ public class SHAUtil {
         System.out.println("SHA256加密== " + sha.SHA256("shizhenqiang"));
         System.out.println("SHA512加密== " + sha.SHA512("123"));
         System.out.println("SHAMD5加密== " + sha.SHAMD5("123"));
+
+        String replace = "白金会员".replace("会员", "");
+        System.out.println(replace);
     }
 
 }

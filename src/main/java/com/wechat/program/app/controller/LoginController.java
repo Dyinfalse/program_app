@@ -54,7 +54,7 @@ public class LoginController {
         } catch (AuthorizationException e) {
             return AjaxResult.failed("没有权限！");
         }
-        return AjaxResult.success();
+        return AjaxResult.success(appUserService.selectByShiroName(dto.getPhone()));
     }
 
     @GetMapping("/logout")
