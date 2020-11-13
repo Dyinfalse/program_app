@@ -31,6 +31,55 @@
         id,name,phone,member,sex,current_integral,coupon, type, token,total_time, present_time, birthday, validity_volume,create_time, update_time
     </sql>
 
+    <update id="updateByPrimaryKeyOverSelective" parameterType="com.wechat.program.app.entity.AppUser">
+        update app_user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                token = #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="member != null">
+                member = #{member,jdbcType=BIT},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="totalTime != null">
+                total_time = #{totalTime,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="currentIntegral != null">
+                current_integral = #{currentIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="coupon != null">
+                coupon = #{coupon,jdbcType=INTEGER},
+            </if>
+            <if test="validityVolume != null">
+                validity_volume = #{validityVolume,jdbcType=TIMESTAMP},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
 
     <select id="selectByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select

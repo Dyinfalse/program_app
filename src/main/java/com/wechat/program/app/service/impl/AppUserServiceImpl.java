@@ -119,8 +119,13 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
             combo.setUsed(true);
             appUserComboService.add(combo);
             appUser.setTotalTime(user.getTotalTime() + appCombo.getDuration() + dto.getPresentTime());
+        } else {
+            if (dto.getPresentTime() > 0) {
+                AppUser user = appUserMapper.selectByPrimaryKey(appUser.getId());
+                appUser.setTotalTime(user.getTotalTime() + dto.getPresentTime());
+            }
         }
-        appUserMapper.updateByPrimaryKeySelective(appUser);
+        appUserMapper.updateByPrimaryKeyOverSelective(appUser);
         return appUser;
     }
 

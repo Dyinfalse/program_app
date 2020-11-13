@@ -31,4 +31,6 @@ public interface AppUserMapper extends IBaseMapper<AppUser> {
     Integer selectByTokenAndPermissionCode(@Param("token")String token, @Param("code")String code);
 
     AppUser selectByPhoneAndPassword(@Param("phone") String phone, @Param("password")String password);
+
+    int updateByPrimaryKeyOverSelective(AppUser record);
 }

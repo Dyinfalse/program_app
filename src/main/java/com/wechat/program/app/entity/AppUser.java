@@ -62,9 +62,9 @@ public class AppUser extends BaseEntity {
     @Transient
     private Integer comboId;
 
-    public Integer getTotalTime() {
-        return totalTime == null ? 0 : totalTime;
-    }
+//    public Integer getTotalTime() {
+//        return totalTime == null ? 0 : totalTime;
+//    }
 
     public Integer getPresentTime() {
         return presentTime == null ? 0 : presentTime;
