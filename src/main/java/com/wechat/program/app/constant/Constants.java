@@ -17,7 +17,7 @@ public interface Constants {
     /**
      * 短信签名
      */
-    String SIGN = "咚咚积木";
+    String SIGN = "咚咚乐高";
 
 //    String SIGN_FINISH = "消费完毕";
 //

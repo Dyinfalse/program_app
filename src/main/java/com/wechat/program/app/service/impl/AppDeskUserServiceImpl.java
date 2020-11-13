@@ -28,6 +28,8 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
 
     private SmsService smsService;
 
+    private AppUserComboService appUserComboService;
+
     @Override
     public AppDeskUser add(AppDeskUserDTO dto) {
         AppDesk appDesk = appDeskService.selectByKey(dto.getDeskId());
@@ -116,16 +118,10 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                         vo.setRemainingTime(duration - vo.getConsumptionTime());
                         map.put(vo.getUserId(), map.getOrDefault(vo.getUserId(), duration) - vo.getConsumptionTime());
                     }
-//                    if (map.containsKey(vo.getId())) {
-//                        Integer remainingTime = map.get(vo.getId());
-//                        if (remainingTime > vo.getRemainingTime()) {
-//                            map.put(vo.getId(), vo.getRemainingTime());
-//                        }
-//                    } else {
-//                        map.put(vo.getId(), vo.getRemainingTime());
-//                    }
                     appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
 //                    appUserService.update(appUser);
+                    appUser.setComboId(appUserComboService.selectComboIdByUserId(appUser.getId()));
+                    vo.setAppUser(appUser);
                 }
             }
 
@@ -160,5 +156,10 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
     @Autowired
     public void setSmsService(SmsService smsService) {
         this.smsService = smsService;
+    }
+
+    @Autowired
+    public void setAppUserComboService(AppUserComboService appUserComboService) {
+        this.appUserComboService = appUserComboService;
     }
 }

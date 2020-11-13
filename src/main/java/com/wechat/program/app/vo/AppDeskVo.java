@@ -2,6 +2,7 @@ package com.wechat.program.app.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wechat.program.app.entity.AppUser;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -48,4 +49,6 @@ public class AppDeskVo {
             timezone = "GMT+8"
     )
     private Date recordTime;
+
+    private AppUser appUser;
 }
