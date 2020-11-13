@@ -105,18 +105,19 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         BeanUtils.copyProperties(dto, appUser);
         if (null != dto.getPreComboId() && dto.getPreComboId() > 0 &&  !dto.getPreComboId().equals(dto.getComboId())) {
             AppUser user = appUserMapper.selectByPrimaryKey(appUser.getId());
-            AppCombo appCombo = appComboService.selectByKey(dto.getPreComboId());
+            AppCombo appCombo = appComboService.selectByKey(dto.getComboId());
             if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
+            // 将之前的套餐修改
             AppUserCombo appUserCombo = new AppUserCombo();
             appUserCombo.setUserId(dto.getId());
             appUserCombo.setComboId(dto.getPreComboId());
-            appUserCombo.setUsed(true);
-            appUserComboService.add(appUserCombo);
+            appUserCombo.setUsed(false);
+            appUserComboService.updateUsed(appUserCombo);
             AppUserCombo combo = new AppUserCombo();
             combo.setUserId(dto.getId());
             combo.setComboId(dto.getComboId());
-            combo.setUsed(false);
-            appUserComboService.updateUsed(combo);
+            combo.setUsed(true);
+            appUserComboService.add(combo);
             appUser.setTotalTime(user.getTotalTime() + appCombo.getDuration() + dto.getPresentTime());
         }
         appUserMapper.updateByPrimaryKeySelective(appUser);

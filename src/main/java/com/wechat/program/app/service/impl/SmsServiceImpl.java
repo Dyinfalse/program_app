@@ -78,18 +78,18 @@ public class SmsServiceImpl implements SmsService {
             log.info("发送短信，腾讯云返回信息：" + statusMsg);
             // 过于频繁
             if (Constants.SEND_SMS_CODE_FREQUENT == statusCode) {
-                throw new ProgramException("短信过于频繁！");
+//                throw new ProgramException("短信过于频繁！");
             }
             // 达到上限
             if (Constants.SEND_SMS_CODE_UPPER == statusCode) {
-                throw new ProgramException("短信达到上限");
+//                throw new ProgramException("短信达到上限");
             }
             if (Constants.SEND_SMS_CODE_SUCCESS != statusCode) {
-                throw new ProgramException("短信发送错误");
+//                throw new ProgramException("短信发送错误");
             }
 
         } catch (Exception e) {
-            throw new ProgramException("短信发送错误");
+//            throw new ProgramException("短信发送错误");
         }
     }
 
