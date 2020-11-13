@@ -30,6 +30,8 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
 
     @Override
     public AppDeskUser add(AppDeskUserDTO dto) {
+        AppDesk appDesk = appDeskService.selectByKey(dto.getDeskId());
+        if (Objects.isNull(appDesk) || appDesk.getUsed()) throw new ProgramException("此桌正在使用中！");
         AppDeskUser appDeskUser = new AppDeskUser();
         BeanUtils.copyProperties(dto, appDeskUser);
         appDeskUser.setStatus(1);
@@ -60,9 +62,10 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             int status = appDeskUserMapper.selectCountStatusByFinish(appDeskUser.getUserId());
             if (status == 0) appDeskService.updateUsed(appDeskUser.getDeskId(), false);
             AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
-            Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
-            duration += appUser.getPresentTime();
-            appUser.setTotalTime(appUser.getTotalTime()+ appDeskUser.getConsumptionTime());
+//            Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+//            duration += appUser.getPresentTime();
+            Integer duration = appUser.getTotalTime();
+            appUser.setTotalTime(appUser.getTotalTime() - appDeskUser.getConsumptionTime());
             appUserService.update(appUser);
             SendSmsDto sendSmsDto = new SendSmsDto(appUser.getPhone(), 2);
             ArrayList<String> params = sendSmsDto.getParams();
@@ -93,26 +96,24 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                     AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
                     if (Objects.isNull(appUser)) continue;
                     vo.setUserId(appDeskUser.getUserId());
-//                    vo.setUserInfo((appUser.getMember() ? "会员_" : "非会员_") + appUser.getName() + "_" + appUser.getPhone());
                     vo.setUserInfo(appUser.getName());
                     vo.setRecordTime(appDeskUser.getRecordTime());
                     // 套餐时长
-                    Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
-                    duration += appUser.getPresentTime();
-                    Integer totalTime = appUser.getTotalTime();
-//                    Integer duration = totalTime + appUser.getPresentTime();
+//                    Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
+//                    duration += appUser.getPresentTime();
+                    Integer duration = appUser.getTotalTime();
                     if (appDeskUser.getStatus() == 1) {
                         // 消费时长
                         int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
                         vo.setConsumptionTime(consumptionTime);
                         // 剩余时长
-                        vo.setRemainingTime(duration - vo.getConsumptionTime()-totalTime);
+                        vo.setRemainingTime(duration - vo.getConsumptionTime());
                         appDeskUser.setConsumptionTime(consumptionTime);
                         map.put(vo.getUserId(), map.getOrDefault(vo.getUserId(), duration) - vo.getConsumptionTime());
                     } else if (appDeskUser.getStatus() == 0) {
                         Integer consumptionTime = appDeskUser.getConsumptionTime();
                         vo.setConsumptionTime(consumptionTime);
-                        vo.setRemainingTime(duration - vo.getConsumptionTime() - totalTime);
+                        vo.setRemainingTime(duration - vo.getConsumptionTime());
                         map.put(vo.getUserId(), map.getOrDefault(vo.getUserId(), duration) - vo.getConsumptionTime());
                     }
 //                    if (map.containsKey(vo.getId())) {

@@ -50,11 +50,10 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         appUserCombo.setUsed(true);
         AppCombo appCombo = appComboService.selectByKey(dto.getComboId());
         if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
-        appUser.setTotalTime(appCombo.getDuration());
+        appUser.setTotalTime(appCombo.getDuration()+ dto.getPresentTime());
         appUserMapper.insert(appUser);
         appUserCombo.setUserId(appUser.getId());
         appUserComboService.add(appUserCombo);
-
         AppUserVo vo = new AppUserVo();
         BeanUtils.copyProperties(appUser, vo);
         vo.setComboId(dto.getComboId());
@@ -105,19 +104,20 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         AppUser appUser = new AppUser();
         BeanUtils.copyProperties(dto, appUser);
         if (null != dto.getPreComboId() && dto.getPreComboId() > 0 &&  !dto.getPreComboId().equals(dto.getComboId())) {
+            AppUser user = appUserMapper.selectByPrimaryKey(appUser.getId());
             AppCombo appCombo = appComboService.selectByKey(dto.getPreComboId());
             if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
             AppUserCombo appUserCombo = new AppUserCombo();
             appUserCombo.setUserId(dto.getId());
             appUserCombo.setComboId(dto.getPreComboId());
             appUserCombo.setUsed(true);
-            appUserComboService.updateUsed(appUserCombo);
+            appUserComboService.add(appUserCombo);
             AppUserCombo combo = new AppUserCombo();
             combo.setUserId(dto.getId());
             combo.setComboId(dto.getComboId());
             combo.setUsed(false);
             appUserComboService.updateUsed(combo);
-            appUser.setTotalTime(appUser.getTotalTime()+appCombo.getDuration());
+            appUser.setTotalTime(user.getTotalTime() + appCombo.getDuration() + dto.getPresentTime());
         }
         appUserMapper.updateByPrimaryKeySelective(appUser);
         return appUser;
