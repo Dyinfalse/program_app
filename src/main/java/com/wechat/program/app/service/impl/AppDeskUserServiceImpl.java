@@ -59,12 +59,12 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
         } else if (dto.getStatus() == 1) {
             appDeskUser.setRecordTime(new Date());
         }
-        appDeskUser.setStatus(dto.getStatus());
-        appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
         // 如果结束的话，查找本桌子id相关的单子是否还有非结束的，如果有，则桌子为使用状态，否则为闲置状态
         if (dto.getStatus() == 2) {
-            int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
-            appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+            if (appDeskUser.getStatus() != 0) {
+                int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
+                appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+            }
             appDeskUser.setStatus(2);
             appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
             int status = appDeskUserMapper.selectCountStatusByFinish(appDeskUser.getUserId());
@@ -78,11 +78,14 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             SendSmsDto sendSmsDto = new SendSmsDto(appUser.getPhone(), 2);
             ArrayList<String> params = sendSmsDto.getParams();
             params.add(appUser.getName());
-            params.add(String.valueOf(consumptionTime));
+            params.add(String.valueOf(appDeskUser.getConsumptionTime()));
             params.add(String.valueOf(duration-appDeskUser.getConsumptionTime()));
 //            params.add(String.valueOf(appUser.getTotalTime()));
             sendSmsDto.setParams(params);
             smsService.sendSmsCode(sendSmsDto);
+        } else {
+            appDeskUser.setStatus(dto.getStatus());
+            appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
         }
     }
 
@@ -117,9 +120,10 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                         int pauseNum = appDeskUser.getPauseNum();
                         if (pauseNum >= 1) {
                             vo.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
-                            vo.setRecordTime(nowDate);
-                            appDeskUser.setRecordTime(nowDate);
-                            appDeskUser.setConsumptionTime(vo.getConsumptionTime());
+//                            vo.setRecordTime(nowDate);
+//                            appDeskUser.setRecordTime(nowDate);
+//                            appDeskUser.setConsumptionTime(vo.getConsumptionTime());
+                            vo.setRecordTime(appDeskUser.getCreateTime());
                         } else {
                             vo.setConsumptionTime(consumptionTime);
                             appDeskUser.setConsumptionTime(consumptionTime);
@@ -132,9 +136,10 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                         Integer consumptionTime = appDeskUser.getConsumptionTime();
                         vo.setConsumptionTime(consumptionTime);
                         vo.setRemainingTime(duration - vo.getConsumptionTime());
+                        vo.setRecordTime(appDeskUser.getCreateTime());
                         map.put(vo.getUserId(), map.getOrDefault(vo.getUserId(), duration) - vo.getConsumptionTime());
+                        appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
                     }
-                    appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
 //                    appUserService.update(appUser);
                     appUser.setComboId(appUserComboService.selectComboIdByUserId(appUser.getId()));
                     vo.setAppUser(appUser);
