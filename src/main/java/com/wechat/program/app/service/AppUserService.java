@@ -40,4 +40,6 @@ public interface AppUserService extends IService<AppUser> {
     Integer selectByTokenAndPermissionCode(String token, String code);
 
     AppUser selectByPhoneAndPassword(String phone, String password);
+
+    void updateByPrimaryKeyOverSelective(AppUser appUser);
 }

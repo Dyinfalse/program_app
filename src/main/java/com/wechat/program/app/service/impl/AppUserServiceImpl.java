@@ -204,6 +204,11 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         return appUserMapper.selectByPhoneAndPassword(phone, password);
     }
 
+    @Override
+    public void updateByPrimaryKeyOverSelective(AppUser appUser) {
+        appUserMapper.updateByPrimaryKeyOverSelective(appUser);
+    }
+
     @Autowired
     public void setAppUserMapper(AppUserMapper appUserMapper) {
         this.appUserMapper = appUserMapper;

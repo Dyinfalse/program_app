@@ -68,7 +68,7 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
 //            duration += appUser.getPresentTime();
             Integer duration = appUser.getTotalTime();
             appUser.setTotalTime(appUser.getTotalTime() - appDeskUser.getConsumptionTime());
-            appUserService.update(appUser);
+            appUserService.updateByPrimaryKeyOverSelective(appUser);
             SendSmsDto sendSmsDto = new SendSmsDto(appUser.getPhone(), 2);
             ArrayList<String> params = sendSmsDto.getParams();
             params.add(appUser.getName());
