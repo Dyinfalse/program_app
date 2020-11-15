@@ -21,9 +21,7 @@ class ProgramAppApplicationTests {
 
 	@Test
 	public void testSendSms() {
-		SendSmsDto sendSmsDto = new SendSmsDto();
-		sendSmsDto.setMobile("15652182014");
-		smsService.sendSmsCode(sendSmsDto);
+
 	}
 
 }
