@@ -21,6 +21,8 @@ public class AppDeskUser extends BaseEntity {
     /** 0:暂停，1：使用，2：结束'*/
     private Integer status;
 
+    private Integer pauseNum;
+
 
     /**
      * 计时时间，
@@ -38,4 +40,8 @@ public class AppDeskUser extends BaseEntity {
 
     @Transient
     private Integer remainingTime;
+
+    public Integer getPauseNum() {
+        return pauseNum == null ? 0 : pauseNum;
+    }
 }

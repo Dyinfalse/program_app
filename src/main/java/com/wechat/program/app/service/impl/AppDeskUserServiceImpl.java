@@ -48,8 +48,14 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
         AppDeskUser appDeskUser = appDeskUserMapper.selectByPrimaryKey(dto.getId());
         if (Objects.isNull(appDeskUser)) throw new ProgramException("无此桌子信息！");
         if (dto.getStatus() == 0) {
+            int pauseNum = appDeskUser.getPauseNum();
             int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
-            appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+            if (pauseNum >= 1) {
+                appDeskUser.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+            } else {
+                appDeskUser.setConsumptionTime(consumptionTime);
+            }
+            appDeskUser.setPauseNum(pauseNum+1);
         } else if (dto.getStatus() == 1) {
             appDeskUser.setRecordTime(new Date());
         }
@@ -106,11 +112,21 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                     Integer duration = appUser.getTotalTime();
                     if (appDeskUser.getStatus() == 1) {
                         // 消费时长
-                        int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
-                        vo.setConsumptionTime(consumptionTime);
+                        Date nowDate = new Date();
+                        int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), nowDate);
+                        int pauseNum = appDeskUser.getPauseNum();
+                        if (pauseNum >= 1) {
+                            vo.setConsumptionTime(consumptionTime + appDeskUser.getConsumptionTime());
+                            vo.setRecordTime(nowDate);
+                            appDeskUser.setRecordTime(nowDate);
+                            appDeskUser.setConsumptionTime(vo.getConsumptionTime());
+                        } else {
+                            vo.setConsumptionTime(consumptionTime);
+                            appDeskUser.setConsumptionTime(consumptionTime);
+                        }
                         // 剩余时长
                         vo.setRemainingTime(duration - vo.getConsumptionTime());
-                        appDeskUser.setConsumptionTime(consumptionTime);
+
                         map.put(vo.getUserId(), map.getOrDefault(vo.getUserId(), duration) - vo.getConsumptionTime());
                     } else if (appDeskUser.getStatus() == 0) {
                         Integer consumptionTime = appDeskUser.getConsumptionTime();
