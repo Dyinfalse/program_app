@@ -47,6 +47,9 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
     public void updateStatus(AppDeskUserStatusDTO dto) {
         AppDeskUser appDeskUser = appDeskUserMapper.selectByPrimaryKey(dto.getId());
         if (Objects.isNull(appDeskUser)) throw new ProgramException("无此桌子信息！");
+        if (appDeskUser.getStatus().equals(dto.getStatus())) {
+            return;
+        }
         if (dto.getStatus() == 0) {
             int pauseNum = appDeskUser.getPauseNum();
             int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
