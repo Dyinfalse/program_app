@@ -11,6 +11,8 @@ import com.wechat.program.app.request.SendSmsDto;
 import com.wechat.program.app.service.*;
 import com.wechat.program.app.utils.DateUtil;
 import com.wechat.program.app.vo.AppDeskVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import java.util.*;
 
 @Service
 public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements AppDeskUserService {
+
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private AppDeskService appDeskService;
 
@@ -44,9 +48,11 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
     }
 
     @Override
-    public void updateStatus(AppDeskUserStatusDTO dto) {
+    public synchronized void updateStatus(AppDeskUserStatusDTO dto) {
         AppDeskUser appDeskUser = appDeskUserMapper.selectByPrimaryKey(dto.getId());
         if (Objects.isNull(appDeskUser)) throw new ProgramException("无此桌子信息！");
+        logger.info("updateStatus appDeskUser原信息: {}",   appDeskUser);
+        logger.info("updateStatus 修改状态: {}", dto.getStatus());
         if (appDeskUser.getStatus().equals(dto.getStatus())) {
             return;
         }
@@ -58,6 +64,7 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             } else {
                 appDeskUser.setConsumptionTime(consumptionTime);
             }
+            logger.info("updateStatus 修改状态: {}, 计算之后的消费时长 {}", dto.getStatus(), appDeskUser.getConsumptionTime());
             appDeskUser.setPauseNum(pauseNum+1);
         } else if (dto.getStatus() == 1) {
             appDeskUser.setRecordTime(new Date());
@@ -70,6 +77,7 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             }
             appDeskUser.setStatus(2);
             appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
+            logger.info("updateStatus 停止后appDeskUser详情: {}", appDeskUser);
             int status = appDeskUserMapper.selectCountStatusByFinish(appDeskUser.getUserId());
             if (status == 0) appDeskService.updateUsed(appDeskUser.getDeskId(), false);
             AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
@@ -89,6 +97,7 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
         } else {
             appDeskUser.setStatus(dto.getStatus());
             appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
+            logger.info("updateStatus 非停止appDeskUser详情: {}", appDeskUser);
         }
     }
 

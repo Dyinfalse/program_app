@@ -103,8 +103,8 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         if (null == dto.getId()) throw new ProgramException("修改用户信息缺失！");
         AppUser appUser = new AppUser();
         BeanUtils.copyProperties(dto, appUser);
+        AppUser user = appUserMapper.selectByPrimaryKey(appUser.getId());
         if (null != dto.getPreComboId() && dto.getPreComboId() > 0 &&  !dto.getPreComboId().equals(dto.getComboId())) {
-            AppUser user = appUserMapper.selectByPrimaryKey(appUser.getId());
             AppCombo appCombo = appComboService.selectByKey(dto.getComboId());
             if (Objects.isNull(appCombo)) throw new ProgramException("套餐不存在！");
             // 将之前的套餐修改
@@ -120,8 +120,7 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
             appUserComboService.add(combo);
             appUser.setTotalTime(user.getTotalTime() + appCombo.getDuration() + dto.getPresentTime());
         } else {
-            if (dto.getPresentTime() > 0) {
-                AppUser user = appUserMapper.selectByPrimaryKey(appUser.getId());
+            if (Objects.nonNull(user)) {
                 appUser.setTotalTime(user.getTotalTime() + dto.getPresentTime());
             }
         }
