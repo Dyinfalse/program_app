@@ -24,6 +24,13 @@ public class AppDeskUser extends BaseEntity {
     private Integer pauseNum;
 
 
+    /** 最近一次暂停时间*/
+    private Date pauseTime;
+
+    /** 暂停总时长（毫秒）*/
+    private Integer pauseTotalTime;
+
+
     /**
      * 计时时间，
      * 1、每次由开始到暂停，需要计算出之前的消费时长，
@@ -43,5 +50,9 @@ public class AppDeskUser extends BaseEntity {
 
     public Integer getPauseNum() {
         return pauseNum == null ? 0 : pauseNum;
+    }
+
+    public Integer getPauseTotalTime() {
+        return pauseTotalTime == null ? 0 : pauseTotalTime;
     }
 }

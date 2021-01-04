@@ -478,6 +478,15 @@ public class DateUtil {
         return (int)min;
     }
 
+    public static int getSeconds(Date start, Date end) {
+        // 获得两个时间的毫秒时间差异
+        long diff = end.getTime() - start.getTime();
+//        long day = diff / (24 * 60 * 60 * 1000);
+//        long hour = (diff/ (60 * 60 * 1000) - day * 24);
+//        long min = ((diff / (60 * 1000)) - day * 24 * 60 - hour * 60);
+        long min = diff / 1000;
+        return (int)min;
+    }
 
 
     public static void main(String[] args) {

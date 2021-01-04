@@ -9,6 +9,8 @@
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="pause_num" jdbcType="INTEGER" property="pauseNum"/>
+        <result column="pause_time" jdbcType="TIMESTAMP" property="pauseTime"/>
+        <result column="pause_total_time" jdbcType="INTEGER" property="pauseTotalTime"/>
         <result column="consumption_time" jdbcType="INTEGER" property="consumptionTime"/>
         <result column="record_time" property="recordTime" jdbcType="TIMESTAMP"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
@@ -16,7 +18,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-      id,desk_id,user_id,consumption_time,status,pause_num, record_time, create_time, update_time
+      id,desk_id,user_id,consumption_time,status,pause_num,pause_time, pause_total_time, consumption_time, record_time, create_time, update_time
   </sql>
 
 

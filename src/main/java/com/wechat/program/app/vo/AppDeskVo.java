@@ -50,5 +50,11 @@ public class AppDeskVo {
     )
     private Date recordTime;
 
+    /** 最近一次暂停时间*/
+    private Date pauseTime;
+
+    /** 暂停总时长（毫秒）*/
+    private Integer pauseTotalTime;
+
     private AppUser appUser;
 }

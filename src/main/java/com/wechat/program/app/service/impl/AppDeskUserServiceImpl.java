@@ -64,10 +64,14 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             } else {
                 appDeskUser.setConsumptionTime(consumptionTime);
             }
+            appDeskUser.setPauseTime(new Date());
             logger.info("updateStatus 修改状态: {}, 计算之后的消费时长 {}", dto.getStatus(), appDeskUser.getConsumptionTime());
             appDeskUser.setPauseNum(pauseNum+1);
         } else if (dto.getStatus() == 1) {
             appDeskUser.setRecordTime(new Date());
+            if (appDeskUser.getStatus() == 0 && appDeskUser.getPauseNum() > 0) {
+                appDeskUser.setPauseTotalTime(DateUtil.getSeconds(appDeskUser.getPauseTime(), new Date()));
+            }
         }
         // 如果结束的话，查找本桌子id相关的单子是否还有非结束的，如果有，则桌子为使用状态，否则为闲置状态
         if (dto.getStatus() == 2) {
@@ -121,6 +125,8 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
                     vo.setUserId(appDeskUser.getUserId());
                     vo.setUserInfo(appUser.getName());
                     vo.setRecordTime(appDeskUser.getRecordTime());
+                    vo.setPauseTime(appDeskUser.getPauseTime());
+                    vo.setPauseTotalTime(appDeskUser.getPauseTotalTime());
                     // 套餐时长
 //                    Integer duration = appUserService.getComboOfDuration(appDeskUser.getUserId());
 //                    duration += appUser.getPresentTime();

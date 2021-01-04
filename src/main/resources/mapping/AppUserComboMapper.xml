@@ -7,10 +7,12 @@
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <id column="combo_id" jdbcType="INTEGER" property="comboId"/>
         <id column="used" jdbcType="BIT" property="used"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-      user_id,combo_id,used
+      user_id,combo_id,used,create_time,update_time
   </sql>
 
     <insert id="insertAppUserCombo" keyColumn="id" keyProperty="id" parameterType="com.wechat.program.app.entity.AppUserCombo"

@@ -7,6 +7,7 @@ import com.wechat.program.app.entity.AppUserCombo;
 import com.wechat.program.app.exception.ProgramException;
 import com.wechat.program.app.mapper.AppUserMapper;
 import com.wechat.program.app.request.AppUserDTO;
+import com.wechat.program.app.request.AppUserTotalTimeDTO;
 import com.wechat.program.app.request.SendSmsDto;
 import com.wechat.program.app.service.*;
 import com.wechat.program.app.utils.SHAUtil;
@@ -206,6 +207,16 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
     @Override
     public void updateByPrimaryKeyOverSelective(AppUser appUser) {
         appUserMapper.updateByPrimaryKeyOverSelective(appUser);
+    }
+
+    @Override
+    public AppUser updateTotalTime(AppUserTotalTimeDTO dto) {
+        if (null == dto.getId() || null == dto.getTotalTime()) throw new ProgramException("修改用户信息缺失！");
+        AppUser appUser = appUserMapper.selectByPrimaryKey(dto.getId());
+        if (Objects.isNull(appUser)) throw new ProgramException("此会员不存在！");
+        appUser.setTotalTime(dto.getTotalTime());
+        appUserMapper.updateByPrimaryKeyOverSelective(appUser);
+        return appUser;
     }
 
     @Autowired

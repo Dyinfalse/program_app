@@ -4,6 +4,7 @@ import com.wechat.program.app.constant.PermissionConstant;
 import com.wechat.program.app.core.AjaxResult;
 import com.wechat.program.app.entity.AppUser;
 import com.wechat.program.app.request.AppUserDTO;
+import com.wechat.program.app.request.AppUserTotalTimeDTO;
 import com.wechat.program.app.service.AppUserService;
 import com.wechat.program.app.vo.AppUserVo;
 import io.swagger.annotations.Api;
@@ -70,6 +71,14 @@ public class AppUserController {
     @GetMapping("/statistics")
     public AjaxResult consumptionStatistics() {
         return AjaxResult.success(appUserService.consumptionStatistics());
+    }
+
+
+    @RequiresPermissions(PermissionConstant.MEMBERS_UPDATE)
+    @ApiOperation("修改剩余时长")
+    @PostMapping("/update-total-time")
+    public AjaxResult updateTotalTime(@RequestBody AppUserTotalTimeDTO dto) {
+        return AjaxResult.success(appUserService.updateTotalTime(dto));
     }
 
 

@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Data
 @Table(name = "app_user_combo")
-public class AppUserCombo {
+public class AppUserCombo extends BaseEntity{
 
     private Integer userId;
 

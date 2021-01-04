@@ -3,6 +3,7 @@ package com.wechat.program.app.service;
 import com.wechat.program.app.core.IService;
 import com.wechat.program.app.entity.AppUser;
 import com.wechat.program.app.request.AppUserDTO;
+import com.wechat.program.app.request.AppUserTotalTimeDTO;
 import com.wechat.program.app.vo.AppUserVo;
 import com.wechat.program.app.vo.UserConsumptionStatisticsVO;
 
@@ -42,4 +43,6 @@ public interface AppUserService extends IService<AppUser> {
     AppUser selectByPhoneAndPassword(String phone, String password);
 
     void updateByPrimaryKeyOverSelective(AppUser appUser);
+
+    AppUser updateTotalTime(AppUserTotalTimeDTO dto);
 }

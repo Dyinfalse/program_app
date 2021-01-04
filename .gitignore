@@ -126,8 +126,8 @@
 .idea/libraries/Maven__tk_mybatis_mapper_spring_boot_autoconfigure_2_0_4.xml
 .idea/libraries/Maven__tk_mybatis_mapper_spring_boot_starter_2_0_4.xml
 .idea/libraries/Maven__tk_mybatis_mapper_weekend_1_1_4_1.xml
-logs/program_app.log.2020-12-19.0.log
 logs/program_app.log.2020-12-25.0.log
+logs/program_app.log.2021-01-01.0.log
 target/program_app-0.0.1-SNAPSHOT.jar
 target/program_app-0.0.1-SNAPSHOT.jar.original
 target/classes/application.properties
