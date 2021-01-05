@@ -12,6 +12,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @Api( tags = {"桌子"})
 @RestController
 @RequestMapping("/desk")
@@ -30,8 +32,7 @@ public class DeskController {
     @ApiOperation("游戏状态，0:暂停(默认)，1：使用，2：结束'")
     @PostMapping("/updateStatus")
     public AjaxResult updateStatus(@RequestBody AppDeskUserStatusDTO dto) {
-        appDeskUserService.updateStatus(dto);
-        return AjaxResult.success();
+        return AjaxResult.success(appDeskUserService.updateStatus(dto));
     }
 
     @RequiresPermissions(PermissionConstant.DESK_LIST)

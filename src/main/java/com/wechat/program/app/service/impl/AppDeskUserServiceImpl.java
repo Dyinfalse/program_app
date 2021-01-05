@@ -3,6 +3,7 @@ package com.wechat.program.app.service.impl;
 import com.wechat.program.app.entity.AppDesk;
 import com.wechat.program.app.entity.AppDeskUser;
 import com.wechat.program.app.entity.AppUser;
+import com.wechat.program.app.entity.BaseEntity;
 import com.wechat.program.app.exception.ProgramException;
 import com.wechat.program.app.mapper.AppDeskUserMapper;
 import com.wechat.program.app.request.AppDeskUserDTO;
@@ -48,13 +49,13 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
     }
 
     @Override
-    public synchronized void updateStatus(AppDeskUserStatusDTO dto) {
+    public synchronized Map updateStatus(AppDeskUserStatusDTO dto) {
         AppDeskUser appDeskUser = appDeskUserMapper.selectByPrimaryKey(dto.getId());
         if (Objects.isNull(appDeskUser)) throw new ProgramException("无此桌子信息！");
         logger.info("updateStatus appDeskUser原信息: {}",   appDeskUser);
         logger.info("updateStatus 修改状态: {}", dto.getStatus());
         if (appDeskUser.getStatus().equals(dto.getStatus())) {
-            return;
+            return null;
         }
         if (dto.getStatus() == 0) {
             int pauseNum = appDeskUser.getPauseNum();
@@ -70,7 +71,10 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
         } else if (dto.getStatus() == 1) {
             appDeskUser.setRecordTime(new Date());
             if (appDeskUser.getStatus() == 0 && appDeskUser.getPauseNum() > 0) {
-                appDeskUser.setPauseTotalTime(DateUtil.getSeconds(appDeskUser.getPauseTime(), new Date()));
+                Integer pauseTime = DateUtil.getSeconds(appDeskUser.getPauseTime(), new Date());
+                logger.info("updateStatus  {} 号桌子, 第{}次暂停结束，本次暂停: {} 秒", appDeskUser.getDeskId(), appDeskUser.getPauseNum(), pauseTime);
+                Integer pauseTotalTime = pauseTime + appDeskUser.getPauseTotalTime();
+                appDeskUser.setPauseTotalTime(pauseTotalTime);
             }
         }
         // 如果结束的话，查找本桌子id相关的单子是否还有非结束的，如果有，则桌子为使用状态，否则为闲置状态
@@ -103,6 +107,14 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             appDeskUserMapper.updateByPrimaryKeySelective(appDeskUser);
             logger.info("updateStatus 非停止appDeskUser详情: {}", appDeskUser);
         }
+
+        AppUser appUser = appUserService.selectByKey(appDeskUser.getUserId());
+        Map vo = new HashMap<String, Integer>();
+        if(!Objects.isNull(appUser)){
+            vo.put("totalTime", appUser.getTotalTime());
+            vo.put("consumptionTime", appDeskUser.getConsumptionTime());
+        }
+        return vo;
     }
 
     @Override
