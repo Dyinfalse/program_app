@@ -17,4 +17,6 @@ public interface AppDeskUserService extends IService<AppDeskUser> {
     Map updateStatus(AppDeskUserStatusDTO dto);
 
     List<AppDeskVo> selectDeskList();
+
+    List<AppDeskUser> consumptionStatisticsByUserId(Integer userId);
 }

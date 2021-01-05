@@ -117,6 +117,13 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
         return vo;
     }
 
+
+    @Override
+    public List<AppDeskUser> consumptionStatisticsByUserId (Integer userId) {
+        if (Objects.isNull(userId)) throw new ProgramException("userId为空！");
+        return appDeskUserMapper.selectAppDeskUserStatisticsByUserId(userId);
+    }
+
     @Override
     public List<AppDeskVo> selectDeskList() {
         List<AppDesk> appDesks = appDeskService.selectAll();

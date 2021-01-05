@@ -42,6 +42,13 @@ public class DeskController {
         return AjaxResult.success(appDeskUserService.selectDeskList());
     }
 
+
+    @ApiOperation("单个用户消费记录")
+    @GetMapping("/statistics-by-user")
+    public AjaxResult consumptionStatisticsByUser(@RequestParam("userId") Integer userId) {
+        return AjaxResult.success(appDeskUserService.consumptionStatisticsByUserId(userId));
+    }
+
     @Autowired
     public void setAppDeskUserService(AppDeskUserService appDeskUserService) {
         this.appDeskUserService = appDeskUserService;

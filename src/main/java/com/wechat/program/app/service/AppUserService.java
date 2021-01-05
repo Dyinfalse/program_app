@@ -1,7 +1,9 @@
 package com.wechat.program.app.service;
 
 import com.wechat.program.app.core.IService;
+import com.wechat.program.app.entity.AppDeskUser;
 import com.wechat.program.app.entity.AppUser;
+import com.wechat.program.app.entity.AppUserCombo;
 import com.wechat.program.app.request.AppUserDTO;
 import com.wechat.program.app.request.AppUserTotalTimeDTO;
 import com.wechat.program.app.vo.AppUserVo;

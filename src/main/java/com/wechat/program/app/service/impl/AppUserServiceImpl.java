@@ -1,10 +1,8 @@
 package com.wechat.program.app.service.impl;
 
-import com.wechat.program.app.entity.AppCombo;
-import com.wechat.program.app.entity.AppRole;
-import com.wechat.program.app.entity.AppUser;
-import com.wechat.program.app.entity.AppUserCombo;
+import com.wechat.program.app.entity.*;
 import com.wechat.program.app.exception.ProgramException;
+import com.wechat.program.app.mapper.AppDeskUserMapper;
 import com.wechat.program.app.mapper.AppUserMapper;
 import com.wechat.program.app.request.AppUserDTO;
 import com.wechat.program.app.request.AppUserTotalTimeDTO;
