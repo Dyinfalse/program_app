@@ -70,9 +70,6 @@
             <if test="birthday != null">
                 birthday = #{birthday,jdbcType=TIMESTAMP},
             </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>

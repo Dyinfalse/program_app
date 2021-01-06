@@ -169,7 +169,13 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
                 List<AppCombo> appCombos = new ArrayList<>();
                 for (AppUserCombo appUserCombo : appUserCombos) {
                     AppCombo appCombo = appComboService.selectByKey(appUserCombo.getComboId());
-                    if (Objects.nonNull(appCombo)) appCombos.add(appCombo);
+
+                    if (Objects.nonNull(appCombo)) {
+//                        使用记录日期替换套餐的日期
+                        appCombo.setCreateTime(appUserCombo.getCreateTime());
+                        appCombo.setUpdateTime(appUserCombo.getUpdateTime());
+                        appCombos.add(appCombo);
+                    }
                 }
                 vo.setComboList(appCombos);
             }
@@ -212,6 +218,7 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
         if (null == dto.getId() || null == dto.getTotalTime()) throw new ProgramException("修改用户信息缺失！");
         AppUser appUser = appUserMapper.selectByPrimaryKey(dto.getId());
         if (Objects.isNull(appUser)) throw new ProgramException("此会员不存在！");
+        logger.info("会员: {}, 原剩余时长: {}, 修改为: {}", appUser.getId(), appUser.getTotalTime(), dto.getTotalTime());
         appUser.setTotalTime(dto.getTotalTime());
         appUserMapper.updateByPrimaryKeyOverSelective(appUser);
         return appUser;
