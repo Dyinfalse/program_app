@@ -2,6 +2,7 @@ package com.wechat.program.app.service.impl;
 
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
+import com.wechat.program.app.config.MessageSwitch;
 import com.wechat.program.app.constant.Constants;
 import com.wechat.program.app.exception.ProgramException;
 import com.wechat.program.app.request.SendSmsDto;
@@ -9,6 +10,8 @@ import com.wechat.program.app.request.VerifyCodeDto;
 import com.wechat.program.app.service.SmsService;
 import com.wechat.program.app.utils.SmsUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ import static com.wechat.program.app.constant.Constants.*;
 @Service
 @Slf4j
 public class SmsServiceImpl implements SmsService {
+
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private SmsSingleSender smsSingleSender;
@@ -52,6 +57,10 @@ public class SmsServiceImpl implements SmsService {
     public void sendSmsCode(SendSmsDto sendSmsDto) {
         // 可以在发送验证码之前对当前手机号做一些验证，如该手机号是否注册过
         // 为了防止短信轰炸可以根据业务需求在此做一些限制
+        if(!MessageSwitch.getMessageEnable()) {
+            logger.info("短信功能由管理员关闭，短信未能发出");
+            return;
+        }
         String code = SmsUtil.getCode();
         try {
 //            ArrayList<String> params = new ArrayList<>();

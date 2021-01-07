@@ -222,3 +222,6 @@ target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputF
 target/surefire-reports/com.wechat.program.app.ProgramAppApplicationTests.txt
 target/surefire-reports/TEST-com.wechat.program.app.ProgramAppApplicationTests.xml
 target/test-classes/com/wechat/program/app/ProgramAppApplicationTests.class
+target/classes/com/wechat/program/app/config/MessageSwitch.class
+target/
+logs/
