@@ -5,7 +5,9 @@ import com.wechat.program.app.core.AjaxResult;
 import com.wechat.program.app.entity.AppUser;
 import com.wechat.program.app.request.AppUserDTO;
 import com.wechat.program.app.request.AppUserTotalTimeDTO;
+import com.wechat.program.app.request.SendSmsDto;
 import com.wechat.program.app.service.AppUserService;
+import com.wechat.program.app.service.SmsService;
 import com.wechat.program.app.vo.AppUserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +24,7 @@ public class AppUserController {
 
 
     private AppUserService appUserService;
+    private SmsService smsService;
 
     @RequiresPermissions(PermissionConstant.MEMBERS_ADD)
     @ApiOperation("会员注册")
@@ -81,6 +84,12 @@ public class AppUserController {
         return AjaxResult.success(appUserService.updateTotalTime(dto));
     }
 
+    @ApiOperation("发送短信")
+    @PostMapping("/sendUserMsg")
+    public AjaxResult sendUserMsg (@RequestBody SendSmsDto dto) {
+        smsService.sendSmsCode(dto);
+        return AjaxResult.success("发送成功");
+    }
 
     @Autowired
     public void setAppUserService(AppUserService appUserService) {

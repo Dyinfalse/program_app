@@ -4,7 +4,6 @@ import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
 import com.wechat.program.app.config.MessageSwitch;
 import com.wechat.program.app.constant.Constants;
-import com.wechat.program.app.exception.ProgramException;
 import com.wechat.program.app.request.SendSmsDto;
 import com.wechat.program.app.request.VerifyCodeDto;
 import com.wechat.program.app.service.SmsService;
@@ -15,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 import static com.wechat.program.app.constant.Constants.*;
 
