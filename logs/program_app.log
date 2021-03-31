@@ -1,28 +1,62 @@
-2021-03-29 19:53:05.182 [main] INFO  com.wechat.program.app.ProgramAppApplication - Starting ProgramAppApplication on YanjiedeMBP-2 with PID 9232 (/Users/yanjietu/Documents/java/program_app/target/classes started by yanjietu in /Users/yanjietu/Documents/java/program_app)
-2021-03-29 19:53:05.201 [main] INFO  com.wechat.program.app.ProgramAppApplication - No active profile set, falling back to default profiles: default
-2021-03-29 19:53:06.630 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2021-03-29 19:53:06.640 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2021-03-29 19:53:06.641 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2021-03-29 19:53:06.641 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.38]
-2021-03-29 19:53:06.723 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2021-03-29 19:53:06.724 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1451 ms
-2021-03-29 19:53:07.912 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-03-29 19:53:08.058 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
-2021-03-29 19:53:08.059 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
-2021-03-29 19:53:08.059 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
-2021-03-29 19:53:08.060 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear EntityHelper entityTableMap cache.
-2021-03-29 19:53:08.195 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2021-03-29 19:53:08.236 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2021-03-29 19:53:08.238 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
-2021-03-29 19:53:08.258 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
-2021-03-29 19:53:08.295 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
-2021-03-29 19:53:08.465 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: addUsingPOST_1
-2021-03-29 19:53:08.470 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingGET_1
-2021-03-29 19:53:08.503 [main] INFO  com.wechat.program.app.ProgramAppApplication - Started ProgramAppApplication in 4.499 seconds (JVM running for 6.53)
-2021-03-29 19:54:19.699 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-03-29 19:54:19.704 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2021-03-29 19:54:19.712 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 8 ms
-2021-03-29 19:54:19.810 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Starting...
-2021-03-29 19:54:20.089 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Start completed.
-2021-03-29 20:43:06.603 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Shutdown initiated...
-2021-03-29 20:43:06.605 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Shutdown completed.
+2021-03-31 19:27:10.750 [main] INFO  com.wechat.program.app.ProgramAppApplication - Starting ProgramAppApplication on YanjiedeMBP-2 with PID 18076 (/Users/yanjietu/Documents/java/program_app/target/classes started by yanjietu in /Users/yanjietu/Documents/java/program_app)
+2021-03-31 19:27:10.762 [main] INFO  com.wechat.program.app.ProgramAppApplication - No active profile set, falling back to default profiles: default
+2021-03-31 19:27:12.320 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-03-31 19:27:12.332 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-03-31 19:27:12.333 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-03-31 19:27:12.333 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-03-31 19:27:12.418 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-03-31 19:27:12.419 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1538 ms
+2021-03-31 19:27:13.660 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-03-31 19:27:13.877 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+2021-03-31 19:27:13.878 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+2021-03-31 19:27:13.879 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+2021-03-31 19:27:13.880 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear EntityHelper entityTableMap cache.
+2021-03-31 19:27:14.027 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-03-31 19:27:14.077 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2021-03-31 19:27:14.078 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-03-31 19:27:14.103 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-03-31 19:27:14.156 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-03-31 19:27:14.318 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: addUsingPOST_1
+2021-03-31 19:27:14.324 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingGET_1
+2021-03-31 19:27:14.357 [main] INFO  com.wechat.program.app.ProgramAppApplication - Started ProgramAppApplication in 4.365 seconds (JVM running for 5.861)
+2021-03-31 19:27:32.970 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-03-31 19:27:32.971 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-03-31 19:27:32.984 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 13 ms
+2021-03-31 19:27:33.062 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Starting...
+2021-03-31 19:27:33.781 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Start completed.
+2021-03-31 20:11:03.285 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Shutdown initiated...
+2021-03-31 20:11:03.290 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Shutdown completed.
+2021-03-31 20:11:08.709 [main] INFO  com.wechat.program.app.ProgramAppApplication - Starting ProgramAppApplication on YanjiedeMBP-2 with PID 19229 (/Users/yanjietu/Documents/java/program_app/target/classes started by yanjietu in /Users/yanjietu/Documents/java/program_app)
+2021-03-31 20:11:08.716 [main] INFO  com.wechat.program.app.ProgramAppApplication - No active profile set, falling back to default profiles: default
+2021-03-31 20:11:10.170 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-03-31 20:11:10.178 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-03-31 20:11:10.179 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-03-31 20:11:10.179 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-03-31 20:11:10.248 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-03-31 20:11:10.249 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1432 ms
+2021-03-31 20:11:11.605 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-03-31 20:11:11.763 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+2021-03-31 20:11:11.763 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+2021-03-31 20:11:11.764 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+2021-03-31 20:11:11.765 [main] INFO  t.mybatis.mapper.autoconfigure.MapperCacheDisabler - Clear EntityHelper entityTableMap cache.
+2021-03-31 20:11:11.925 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-03-31 20:11:11.969 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2021-03-31 20:11:11.970 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-03-31 20:11:11.985 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-03-31 20:11:12.022 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-03-31 20:11:12.189 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: addUsingPOST_1
+2021-03-31 20:11:12.195 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingGET_1
+2021-03-31 20:11:12.245 [main] INFO  com.wechat.program.app.ProgramAppApplication - Started ProgramAppApplication in 4.12 seconds (JVM running for 4.999)
+2021-03-31 20:11:21.703 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-03-31 20:11:21.703 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-03-31 20:11:21.711 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 7 ms
+2021-03-31 20:11:21.750 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Starting...
+2021-03-31 20:11:22.007 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - hikaricp - Start completed.
+2021-03-31 20:11:22.848 [http-nio-8080-exec-1] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回状态码：0
+2021-03-31 20:11:22.849 [http-nio-8080-exec-1] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回信息：OK
+2021-03-31 20:21:53.547 [http-nio-8080-exec-8] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回状态码：0
+2021-03-31 20:21:53.548 [http-nio-8080-exec-8] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回信息：OK
+2021-03-31 20:24:00.215 [http-nio-8080-exec-7] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回状态码：0
+2021-03-31 20:24:00.216 [http-nio-8080-exec-7] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回信息：OK
+2021-03-31 20:26:42.102 [http-nio-8080-exec-9] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回状态码：0
+2021-03-31 20:26:42.103 [http-nio-8080-exec-9] INFO  com.wechat.program.app.service.impl.SmsServiceImpl - 发送短信，腾讯云返回信息：OK

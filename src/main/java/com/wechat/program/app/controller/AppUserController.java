@@ -95,4 +95,9 @@ public class AppUserController {
     public void setAppUserService(AppUserService appUserService) {
         this.appUserService = appUserService;
     }
+
+    @Autowired
+    public void setSmsService(SmsService smsService) {
+        this.smsService = smsService;
+    }
 }
