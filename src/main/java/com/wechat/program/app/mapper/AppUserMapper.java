@@ -14,6 +14,8 @@ public interface AppUserMapper extends IBaseMapper<AppUser> {
 
     List<AppUser> selectMembers(@Param("type") Integer type);
 
+    List<AppUser> selectPageMembers(@Param("type") Integer type, @Param("start") Integer start, @Param("pageSize") Integer pageSize);
+
     AppUser selectNameAndPassword(@Param("name") String name, @Param("passWord") String passWord);
 
     AppUser selectByPhone(@Param("phone") String phone);

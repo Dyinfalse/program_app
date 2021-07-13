@@ -11,6 +11,7 @@ import com.wechat.program.app.service.SmsService;
 import com.wechat.program.app.vo.AppUserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.implementation.bind.annotation.Default;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,10 @@ import java.util.Objects;
 @RequestMapping("/app-user")
 public class AppUserController {
 
-
+    @Autowired
     private AppUserService appUserService;
+
+    @Autowired
     private SmsService smsService;
 
     @RequiresPermissions(PermissionConstant.MEMBERS_ADD)
@@ -72,8 +75,10 @@ public class AppUserController {
     @RequiresPermissions(PermissionConstant.CONSUMPTION_STATISTICS)
     @ApiOperation("消费统计")
     @GetMapping("/statistics")
-    public AjaxResult consumptionStatistics() {
-        return AjaxResult.success(appUserService.consumptionStatistics());
+    public AjaxResult consumptionStatistics(@RequestParam(name  = "page", defaultValue = "1") Integer page,
+                                            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+        Integer start = (page - 1) * pageSize;
+        return AjaxResult.success(appUserService.consumptionStatistics(start, pageSize));
     }
 
 
@@ -89,15 +94,5 @@ public class AppUserController {
     public AjaxResult sendUserMsg (@RequestBody SendSmsDto dto) {
         smsService.sendSmsCode(dto);
         return AjaxResult.success("发送成功");
-    }
-
-    @Autowired
-    public void setAppUserService(AppUserService appUserService) {
-        this.appUserService = appUserService;
-    }
-
-    @Autowired
-    public void setSmsService(SmsService smsService) {
-        this.smsService = smsService;
     }
 }

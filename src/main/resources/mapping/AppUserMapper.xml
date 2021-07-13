@@ -96,6 +96,17 @@
         and type = 0
     </select>
 
+    <select id="selectPageMembers" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from
+        app_user
+        where member = #{type}
+        and type = 0
+        order by create_time desc
+        limit #{start}, #{pageSize}
+    </select>
+
     <select id="selectNameAndPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>

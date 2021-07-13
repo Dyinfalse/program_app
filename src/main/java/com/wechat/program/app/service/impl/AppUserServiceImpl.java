@@ -81,6 +81,11 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
     }
 
     @Override
+    public List<AppUser> members(Integer type, Integer start, Integer pageSize) {
+        return appUserMapper.selectPageMembers(type, start, pageSize);
+    }
+
+    @Override
     public List<AppUser> members(Integer type) {
         return appUserMapper.selectMembers(type);
     }
@@ -153,8 +158,8 @@ public class AppUserServiceImpl extends BaseService<AppUser> implements AppUserS
     }
 
     @Override
-    public List<UserConsumptionStatisticsVO> consumptionStatistics() {
-        List<AppUser> members = members(1);
+    public List<UserConsumptionStatisticsVO> consumptionStatistics(Integer start, Integer pageSize) {
+        List<AppUser> members = members(1, start, pageSize);
         if (CollectionUtils.isEmpty(members)) return Collections.emptyList();
         List<UserConsumptionStatisticsVO> consumptionStatisticsVOList = new ArrayList<>();
         for (AppUser appUser : members) {

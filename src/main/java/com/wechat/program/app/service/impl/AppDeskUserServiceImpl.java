@@ -58,6 +58,9 @@ public class AppDeskUserServiceImpl extends BaseService<AppDeskUser> implements 
             return null;
         }
         if (dto.getStatus() == 0) {
+            if(appDeskUser.getStatus() == 2) {
+                throw new ProgramException("此桌订单已经结束！请刷新");
+            }
             int pauseNum = appDeskUser.getPauseNum();
             int consumptionTime = DateUtil.getMin(appDeskUser.getRecordTime(), new Date());
             if (pauseNum >= 1) {

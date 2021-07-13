@@ -18,6 +18,8 @@ public interface AppUserService extends IService<AppUser> {
 
     List<AppUser> searchKey (String keyword);
 
+    List<AppUser> members(Integer type, Integer page, Integer pageSize);
+
     List<AppUser> members(Integer type);
 
     AppUser selectNameAndPassword(String name, String password);
@@ -33,7 +35,7 @@ public interface AppUserService extends IService<AppUser> {
     List<AppUser> selectListByType(Integer type);
 
 
-    List<UserConsumptionStatisticsVO> consumptionStatistics();
+    List<UserConsumptionStatisticsVO> consumptionStatistics(Integer start, Integer pageSize);
 
 
     Boolean selectByToken(String token);
